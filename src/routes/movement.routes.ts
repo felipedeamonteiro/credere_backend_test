@@ -1,23 +1,29 @@
 import { Router } from 'express';
-import { v4 as uuid } from 'uuid';
 
-// import Movement from '../models/Movement';
+import MovementsReposritory from '../repositories/MovementsRepository';
+import CreateMovementService from '../services/CreateMovementService';
 
 const movementsRouter = Router();
+const movementsRepository = new MovementsReposritory();
 
-const movements = [];
+movementsRouter.get('/', (request, response) => {
+  const movements = movementsRepository.getAll();
+
+  return response.json(movements);
+});
 
 movementsRouter.post('/', (request, response) => {
-  const { movement } = request.body;
+  try {
+    const { movement } = request.body;
 
-  const carMovement = {
-    id: uuid(),
-    movement,
-  };
+    const createMovement = new CreateMovementService(movementsRepository);
 
-  movements.push(carMovement);
+    const carMovement = createMovement.execute({ movement });
 
-  return response.json(carMovement);
+    return response.json(carMovement);
+  } catch (err) {
+    return response.status(401).json({ error: err.message });
+  }
 });
 
 export default movementsRouter;
