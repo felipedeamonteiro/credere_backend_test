@@ -21,7 +21,7 @@ movementsRouter.get('/', async (request, response) => {
 
 movementsRouter.post('/', async (request, response) => {
   try {
-    const { movement } = request.body;
+    const { movement, name } = request.body;
 
     const carCoordinatesRepository = getCustomRepository(
       CarCoordinatesRepository,
@@ -30,12 +30,14 @@ movementsRouter.post('/', async (request, response) => {
     const createMovement = new CreateMovementService();
     const calculateCoordinates = new CalculateCoordinateService();
 
-    createMovement.execute({ movement });
+    createMovement.execute({ pilot_name: name, movement });
     const marsCarCoordinates = await calculateCoordinates.execute({
+      pilot_name: name,
       movements: movement,
     });
 
     carCoordinatesRepository.create({
+      pilot_name: name,
       xCoordinate: marsCarCoordinates.xCoordinate,
       yCoordinate: marsCarCoordinates.yCoordinate,
       carDirection: marsCarCoordinates.carDirection,

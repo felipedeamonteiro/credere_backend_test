@@ -16,6 +16,10 @@ export default class CreateCarCoordinates1608601406078
             default: 'uuid_generate_v4()',
           },
           {
+            name: 'pilot_name',
+            type: 'varchar',
+          },
+          {
             name: 'xCoordinate',
             type: 'int',
           },

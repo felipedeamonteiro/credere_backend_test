@@ -5,6 +5,7 @@ import CarCoordinates from '../models/CarCoordinates';
 import CarCoordinatesRepository from '../repositories/CarCoordinatesRepository';
 
 interface IRequest {
+  pilot_name: string;
   movements: string[];
 }
 
@@ -15,13 +16,18 @@ interface IMarsCarCoords {
 }
 
 class CalculateCoordinateService {
-  public async execute({ movements }: IRequest): Promise<CarCoordinates> {
+  public async execute({
+    pilot_name,
+    movements,
+  }: IRequest): Promise<CarCoordinates> {
     const carCoordinatesRepository = getCustomRepository(
       CarCoordinatesRepository,
     );
     let marsCarCoordinates: IMarsCarCoords;
 
-    const carCoordinates = await carCoordinatesRepository.findOne();
+    const carCoordinates = await carCoordinatesRepository.findOne({
+      where: { pilot_name },
+    });
     if (!carCoordinates) {
       marsCarCoordinates = {
         xCoordinate: 0,
@@ -108,6 +114,7 @@ class CalculateCoordinateService {
     }
 
     const newCarCoordinates = carCoordinatesRepository.create({
+      pilot_name,
       xCoordinate: marsCarCoordinates.xCoordinate,
       yCoordinate: marsCarCoordinates.yCoordinate,
       carDirection: marsCarCoordinates.carDirection,

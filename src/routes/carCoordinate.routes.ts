@@ -5,9 +5,13 @@ import CarCoordinatesRepository from '../repositories/CarCoordinatesRepository';
 const coordinatesRouter = Router();
 const carCoordinatesRepository = new CarCoordinatesRepository();
 
-coordinatesRouter.get('/', async (request, response) => {
+coordinatesRouter.get('/:pilot_name', async (request, response) => {
   try {
-    const coordinates = await carCoordinatesRepository.findOne();
+    const { pilot_name } = request.params;
+    console.log('name', pilot_name);
+    const coordinates = await carCoordinatesRepository.find({
+      where: { pilot_name },
+    });
 
     return response.json(coordinates);
   } catch (err) {

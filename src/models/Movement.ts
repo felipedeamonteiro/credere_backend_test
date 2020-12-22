@@ -6,6 +6,9 @@ class Movement {
   id: string;
 
   @Column()
+  pilot_name: string;
+
+  @Column()
   movement: string;
 }
 

@@ -16,6 +16,10 @@ export default class CreateMovements1608587342812
             default: 'uuid_generate_v4()',
           },
           {
+            name: 'pilot_name',
+            type: 'varchar',
+          },
+          {
             name: 'movement',
             type: 'varchar',
           },

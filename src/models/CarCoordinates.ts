@@ -6,6 +6,9 @@ class CarCoordinates {
   id: string;
 
   @Column()
+  pilot_name: string;
+
+  @Column()
   xCoordinate: number;
 
   @Column()
