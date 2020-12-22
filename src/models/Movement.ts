@@ -6,7 +6,7 @@ class Movement {
   id: string;
 
   @Column()
-  movement: string[];
+  movement: string | string[];
 }
 
 export default Movement;

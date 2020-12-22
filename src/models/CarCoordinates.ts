@@ -1,7 +1,10 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('carCoordinates')
 class CarCoordinates {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column()
   xCoordinate: number;
 

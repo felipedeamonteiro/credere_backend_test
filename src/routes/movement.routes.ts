@@ -15,23 +15,27 @@ movementsRouter.get('/', (request, response) => {
   return response.json(movements);
 });
 
-movementsRouter.post('/', (request, response) => {
+movementsRouter.post('/', async (request, response) => {
   try {
     const { movement } = request.body;
-    const movementsRepository = getCustomRepository(MovementsRepository);
+
     const carCoordinatesRepository = getCustomRepository(
       CarCoordinatesRepository,
     );
 
     const createMovement = new CreateMovementService();
-
     const calculateCoordinates = new CalculateCoordinateService();
 
     createMovement.execute({ movement });
-    const marsCarCoordinates = calculateCoordinates.execute({
+    const marsCarCoordinates = await calculateCoordinates.execute({
       movements: movement,
     });
-    carCoordinatesRepository.create(marsCarCoordinates);
+
+    carCoordinatesRepository.create({
+      xCoordinate: marsCarCoordinates.xCoordinate,
+      yCoordinate: marsCarCoordinates.yCoordinate,
+      carDirection: marsCarCoordinates.carDirection,
+    });
 
     return response.json(marsCarCoordinates);
   } catch (err) {

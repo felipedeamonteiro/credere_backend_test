@@ -8,74 +8,97 @@ interface IRequest {
   movements: string[];
 }
 
+interface IMarsCarCoords {
+  xCoordinate: number;
+  yCoordinate: number;
+  carDirection: 'right' | 'up' | 'left' | 'down';
+}
+
 class CalculateCoordinateService {
   public async execute({ movements }: IRequest): Promise<CarCoordinates> {
     const carCoordinatesRepository = getCustomRepository(
       CarCoordinatesRepository,
     );
+    let marsCarCoordinates: IMarsCarCoords;
 
-    const carCoordinates = carCoordinatesRepository;
+    const carCoordinates = await carCoordinatesRepository.findOne();
+    if (!carCoordinates) {
+      marsCarCoordinates = {
+        xCoordinate: 0,
+        yCoordinate: 0,
+        carDirection: 'right',
+      };
+    } else {
+      marsCarCoordinates = {
+        xCoordinate: carCoordinates.xCoordinate,
+        yCoordinate: carCoordinates.yCoordinate,
+        carDirection: carCoordinates.carDirection,
+      };
+    }
 
     for (let i = 0; i < movements.length; i++) {
       if (movements[i] === 'GD' || movements[i] === 'GE') {
         if (
-          (carCoordinates.carDirection === 'right' && movements[i] === 'GE') ||
-          (carCoordinates.carDirection === 'left' && movements[i] === 'GD')
+          (marsCarCoordinates.carDirection === 'right' &&
+            movements[i] === 'GE') ||
+          (marsCarCoordinates.carDirection === 'left' && movements[i] === 'GD')
         ) {
-          carCoordinates.carDirection = 'up';
+          marsCarCoordinates.carDirection = 'up';
         } else if (
-          (carCoordinates.carDirection === 'up' && movements[i] === 'GE') ||
-          (carCoordinates.carDirection === 'down' && movements[i] === 'GD')
+          (marsCarCoordinates.carDirection === 'up' && movements[i] === 'GE') ||
+          (marsCarCoordinates.carDirection === 'down' && movements[i] === 'GD')
         ) {
-          carCoordinates.carDirection = 'left';
+          marsCarCoordinates.carDirection = 'left';
         } else if (
-          (carCoordinates.carDirection === 'left' && movements[i] === 'GE') ||
-          (carCoordinates.carDirection === 'right' && movements[i] === 'GD')
+          (marsCarCoordinates.carDirection === 'left' &&
+            movements[i] === 'GE') ||
+          (marsCarCoordinates.carDirection === 'right' && movements[i] === 'GD')
         ) {
-          carCoordinates.carDirection = 'down';
+          marsCarCoordinates.carDirection = 'down';
         } else if (
-          (carCoordinates.carDirection === 'down' && movements[i] === 'GE') ||
-          (carCoordinates.carDirection === 'up' && movements[i] === 'GD')
+          (marsCarCoordinates.carDirection === 'down' &&
+            movements[i] === 'GE') ||
+          (marsCarCoordinates.carDirection === 'up' && movements[i] === 'GD')
         ) {
-          carCoordinates.carDirection = 'right';
+          marsCarCoordinates.carDirection = 'right';
         }
       } else {
-        const carMovesRight = carCoordinates.carDirection === 'right';
-        const carMovesLeft = carCoordinates.carDirection === 'left';
-        const carMovesUp = carCoordinates.carDirection === 'up';
-        const carMovesDown = carCoordinates.carDirection === 'down';
+        const carMovesRight = marsCarCoordinates.carDirection === 'right';
+        const carMovesLeft = marsCarCoordinates.carDirection === 'left';
+        const carMovesUp = marsCarCoordinates.carDirection === 'up';
+        const carMovesDown = marsCarCoordinates.carDirection === 'down';
 
         if (carMovesRight) {
-          carCoordinates.xCoordinate += 1;
-          if (carCoordinates.xCoordinate === 5) {
-            carCoordinates.xCoordinate -= 1;
+          marsCarCoordinates.xCoordinate += 1;
+          if (marsCarCoordinates.xCoordinate === 5) {
+            marsCarCoordinates.xCoordinate -= 1;
             throw new Error(
               'Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
             );
           }
         }
         if (carMovesLeft) {
-          carCoordinates.xCoordinate -= 1;
-          if (carCoordinates.xCoordinate === -1) {
-            carCoordinates.xCoordinate += 1;
+          marsCarCoordinates.xCoordinate -= 1;
+          if (marsCarCoordinates.xCoordinate === -1) {
+            marsCarCoordinates.xCoordinate += 1;
             throw new Error(
               'Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
             );
           }
         }
         if (carMovesUp) {
-          carCoordinates.yCoordinate += 1;
-          if (carCoordinates.yCoordinate === 5) {
-            carCoordinates.yCoordinate -= 1;
+          marsCarCoordinates.yCoordinate += 1;
+          if (marsCarCoordinates.yCoordinate === 5) {
+            marsCarCoordinates.yCoordinate -= 1;
             throw new Error(
               'Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
             );
           }
         }
         if (carMovesDown) {
-          carCoordinates.yCoordinate -= 1;
-          if (carCoordinates.yCoordinate === -1) {
-            carCoordinates.yCoordinate += 1;
+          marsCarCoordinates.yCoordinate -= 1;
+          if (marsCarCoordinates.yCoordinate === -1) {
+            marsCarCoordinates.yCoordinate += 1;
             throw new Error(
               'Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
             );
@@ -84,7 +107,11 @@ class CalculateCoordinateService {
       }
     }
 
-    const newCarCoordinates = carCoordinatesRepository.create(carCoordinates);
+    const newCarCoordinates = carCoordinatesRepository.create({
+      xCoordinate: marsCarCoordinates.xCoordinate,
+      yCoordinate: marsCarCoordinates.yCoordinate,
+      carDirection: marsCarCoordinates.carDirection,
+    });
 
     await carCoordinatesRepository.save(newCarCoordinates);
 

@@ -12,9 +12,7 @@ class CreateMovementService {
 
     const carMovement = movementsRepository.create({ movement });
 
-    movementsRepository.
-
-    await movementsRepository.save(carMovement);
+    await movementsRepository.save(Array(carMovement));
 
     return carMovement;
   }
