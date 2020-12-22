@@ -8,11 +8,15 @@ import CalculateCoordinateService from '../services/CalculateCoordinatesService'
 
 const movementsRouter = Router();
 
-movementsRouter.get('/', (request, response) => {
-  const movementsRepository = getCustomRepository(MovementsRepository);
-  const movements = movementsRepository.find();
+movementsRouter.get('/', async (request, response) => {
+  try {
+    const movementsRepository = getCustomRepository(MovementsRepository);
+    const movements = await movementsRepository.find();
 
-  return response.json(movements);
+    return response.json(movements);
+  } catch (err) {
+    return response.status(401).json({ error: err.message });
+  }
 });
 
 movementsRouter.post('/', async (request, response) => {

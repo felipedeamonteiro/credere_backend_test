@@ -10,9 +10,11 @@ class CreateMovementService {
   public async execute({ movement }: IRequest): Promise<Movement> {
     const movementsRepository = getCustomRepository(MovementsRepository);
 
-    const carMovement = movementsRepository.create({ movement });
+    const carMovement = movementsRepository.create({
+      movement: String(movement),
+    });
 
-    await movementsRepository.save(Array(carMovement));
+    await movementsRepository.save(carMovement);
 
     return carMovement;
   }

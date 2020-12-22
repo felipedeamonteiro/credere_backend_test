@@ -5,16 +5,24 @@ import CarCoordinatesRepository from '../repositories/CarCoordinatesRepository';
 const coordinatesRouter = Router();
 const carCoordinatesRepository = new CarCoordinatesRepository();
 
-coordinatesRouter.get('/', (request, response) => {
-  const coordinates = carCoordinatesRepository.getCoordinates();
+coordinatesRouter.get('/', async (request, response) => {
+  try {
+    const coordinates = await carCoordinatesRepository.findOne();
 
-  return response.json(coordinates);
+    return response.json(coordinates);
+  } catch (err) {
+    return response.status(401).json({ error: err.message });
+  }
 });
 
-coordinatesRouter.post('/reset', (request, response) => {
-  const coordinates = carCoordinatesRepository.resetCoordinates();
+coordinatesRouter.post('/reset', async (request, response) => {
+  try {
+    const coordinates = await carCoordinatesRepository.resetCoordinates();
 
-  return response.json(coordinates);
+    return response.json(coordinates);
+  } catch (err) {
+    return response.status(401).json({ error: err.message });
+  }
 });
 
 export default coordinatesRouter;
