@@ -1,52 +1,24 @@
+import { EntityRepository, getRepository, Repository } from 'typeorm';
 import CarCoordinates from '../models/CarCoordinates';
 
-interface ICreateCarCoordinatesDTO {
-  xCoordinate: number;
-  yCoordinate: number;
-  carDirection: string;
+interface ICarCoordinatesRepository {
+  resetCoordinates(): Promise<CarCoordinates>;
 }
 
-class CarCoordinatesRepository {
-  private carCoordinates: CarCoordinates;
+@EntityRepository(CarCoordinates)
+class CarCoordinatesRepository implements ICarCoordinatesRepository {
+  private ormRepository: Repository<CarCoordinates>;
 
   constructor() {
-    this.carCoordinates = {
-      xCoordinate: 0,
-      yCoordinate: 0,
-      carDirection: 'right',
-    };
+    this.ormRepository = getRepository(CarCoordinates);
   }
 
-  public getCoordinates(): CarCoordinates {
-    return this.carCoordinates;
-  }
-
-  public create({
-    xCoordinate,
-    yCoordinate,
-    carDirection,
-  }: ICreateCarCoordinatesDTO): CarCoordinates {
-    const carPosition = new CarCoordinates({
-      xCoordinate,
-      yCoordinate,
-      carDirection,
-    });
-
-    this.carCoordinates.xCoordinate = xCoordinate;
-    this.carCoordinates.yCoordinate = yCoordinate;
-    this.carCoordinates.carDirection = carDirection;
-
-    return carPosition;
-  }
-
-  public resetCoordinates(): CarCoordinates {
-    const carPosition = new CarCoordinates({
+  public async resetCoordinates(): Promise<CarCoordinates> {
+    const carPosition = await this.ormRepository.save({
       xCoordinate: 0,
       yCoordinate: 0,
       carDirection: 'right',
     });
-
-    this.carCoordinates = carPosition;
 
     return carPosition;
   }

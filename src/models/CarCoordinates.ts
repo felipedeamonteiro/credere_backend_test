@@ -1,15 +1,15 @@
-class CarDirection {
+import { Entity, Column } from 'typeorm';
+
+@Entity('carCoordinates')
+class CarCoordinates {
+  @Column()
   xCoordinate: number;
 
+  @Column()
   yCoordinate: number;
 
-  carDirection: string;
-
-  constructor({ xCoordinate, yCoordinate, carDirection }: CarDirection) {
-    this.xCoordinate = xCoordinate;
-    this.yCoordinate = yCoordinate;
-    this.carDirection = carDirection;
-  }
+  @Column()
+  carDirection: 'right' | 'up' | 'left' | 'down';
 }
 
-export default CarDirection;
+export default CarCoordinates;

@@ -1,28 +1,20 @@
 /* eslint-disable no-plusplus */
+import { getCustomRepository } from 'typeorm';
 import CarCoordinates from '../models/CarCoordinates';
 
 import CarCoordinatesRepository from '../repositories/CarCoordinatesRepository';
-import MovementsRepository from '../repositories/MovementsRepository';
 
 interface IRequest {
   movements: string[];
 }
 
 class CalculateCoordinateService {
-  private movementsRepository: MovementsRepository;
+  public async execute({ movements }: IRequest): Promise<CarCoordinates> {
+    const carCoordinatesRepository = getCustomRepository(
+      CarCoordinatesRepository,
+    );
 
-  private carCoordinatesRepository: CarCoordinatesRepository;
-
-  constructor(
-    movementsRepository: MovementsRepository,
-    carCoordinatesRepository: CarCoordinatesRepository,
-  ) {
-    this.movementsRepository = movementsRepository;
-    this.carCoordinatesRepository = carCoordinatesRepository;
-  }
-
-  public execute({ movements }: IRequest): CarCoordinates {
-    const carCoordinates = this.carCoordinatesRepository.getCoordinates();
+    const carCoordinates = carCoordinatesRepository;
 
     for (let i = 0; i < movements.length; i++) {
       if (movements[i] === 'GD' || movements[i] === 'GE') {
@@ -58,7 +50,7 @@ class CalculateCoordinateService {
           if (carCoordinates.xCoordinate === 5) {
             carCoordinates.xCoordinate -= 1;
             throw new Error(
-              'erro: Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
+              'Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
             );
           }
         }
@@ -67,7 +59,7 @@ class CalculateCoordinateService {
           if (carCoordinates.xCoordinate === -1) {
             carCoordinates.xCoordinate += 1;
             throw new Error(
-              'erro: Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
+              'Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
             );
           }
         }
@@ -76,7 +68,7 @@ class CalculateCoordinateService {
           if (carCoordinates.yCoordinate === 5) {
             carCoordinates.yCoordinate -= 1;
             throw new Error(
-              'erro: Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
+              'Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
             );
           }
         }
@@ -85,20 +77,18 @@ class CalculateCoordinateService {
           if (carCoordinates.yCoordinate === -1) {
             carCoordinates.yCoordinate += 1;
             throw new Error(
-              'erro: Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
+              'Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv',
             );
           }
         }
       }
     }
 
-    // const carCoordinates = this.carCoordinatesRepository.create({
-    //   xCoordinate,
-    //   yCoordinate,
-    //   carDirection,
-    // });
+    const newCarCoordinates = carCoordinatesRepository.create(carCoordinates);
 
-    return carCoordinates;
+    await carCoordinatesRepository.save(newCarCoordinates);
+
+    return newCarCoordinates;
   }
 }
 

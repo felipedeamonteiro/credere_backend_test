@@ -1,14 +1,12 @@
-import { v4 as uuid } from 'uuid';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity('movements')
 class Movement {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
   movement: string[];
-
-  constructor({ movement }: Omit<Movement, 'id'>) {
-    this.id = uuid();
-    this.movement = movement;
-  }
 }
 
 export default Movement;

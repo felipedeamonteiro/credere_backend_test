@@ -1,3 +1,4 @@
+import { getCustomRepository } from 'typeorm';
 import Movement from '../models/Movement';
 import MovementsRepository from '../repositories/MovementsRepository';
 
@@ -6,18 +7,14 @@ interface IRequest {
 }
 
 class CreateMovementService {
-  private movementsRepository: MovementsRepository;
+  public async execute({ movement }: IRequest): Promise<Movement> {
+    const movementsRepository = getCustomRepository(MovementsRepository);
 
-  constructor(
-    movementsRepository: MovementsRepository,
-    carCoordinatesRepository: CarCoordinatesRepository,
-  ) {
-    this.movementsRepository = movementsRepository;
-    this.carCoordinatesRepository = carCoordinatesRepository;
-  }
+    const carMovement = movementsRepository.create({ movement });
 
-  public execute({ movement }: IRequest): Movement {
-    const carMovement = this.movementsRepository.create({ movement });
+    movementsRepository.
+
+    await movementsRepository.save(carMovement);
 
     return carMovement;
   }
