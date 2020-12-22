@@ -4,7 +4,7 @@ interface ICreateMovementDTO {
   movement: string[];
 }
 
-class MovementsReposritory {
+class MovementsRepository {
   private movements: Movement[];
 
   constructor() {
@@ -24,4 +24,4 @@ class MovementsReposritory {
   }
 }
 
-export default MovementsReposritory;
+export default MovementsRepository;

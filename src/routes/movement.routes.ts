@@ -1,10 +1,13 @@
 import { Router } from 'express';
 
-import MovementsReposritory from '../repositories/MovementsRepository';
+import CarCoordinatesRepository from '../repositories/CarCoordinatesRepository';
+import MovementsRepository from '../repositories/MovementsRepository';
 import CreateMovementService from '../services/CreateMovementService';
+import CalculateCoordinateService from '../services/CalculateCoordinatesService';
 
 const movementsRouter = Router();
-const movementsRepository = new MovementsReposritory();
+const movementsRepository = new MovementsRepository();
+const carCoordinatesRepository = new CarCoordinatesRepository();
 
 movementsRouter.get('/', (request, response) => {
   const movements = movementsRepository.getAll();
@@ -18,9 +21,17 @@ movementsRouter.post('/', (request, response) => {
 
     const createMovement = new CreateMovementService(movementsRepository);
 
-    const carMovement = createMovement.execute({ movement });
+    const calculateCoordinates = new CalculateCoordinateService(
+      movementsRepository,
+      carCoordinatesRepository,
+    );
 
-    return response.json(carMovement);
+    createMovement.execute({ movement });
+    const lunarCarCoordinates = calculateCoordinates.execute({
+      movements: movement,
+    });
+
+    return response.json(lunarCarCoordinates);
   } catch (err) {
     return response.status(401).json({ error: err.message });
   }
