@@ -8,8 +8,12 @@ interface IRequest {
 class CreateMovementService {
   private movementsRepository: MovementsRepository;
 
-  constructor(movementsRepository: MovementsRepository) {
+  constructor(
+    movementsRepository: MovementsRepository,
+    carCoordinatesRepository: CarCoordinatesRepository,
+  ) {
     this.movementsRepository = movementsRepository;
+    this.carCoordinatesRepository = carCoordinatesRepository;
   }
 
   public execute({ movement }: IRequest): Movement {

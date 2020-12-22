@@ -27,11 +27,12 @@ movementsRouter.post('/', (request, response) => {
     );
 
     createMovement.execute({ movement });
-    const lunarCarCoordinates = calculateCoordinates.execute({
+    const marsCarCoordinates = calculateCoordinates.execute({
       movements: movement,
     });
+    carCoordinatesRepository.create(marsCarCoordinates);
 
-    return response.json(lunarCarCoordinates);
+    return response.json(marsCarCoordinates);
   } catch (err) {
     return response.status(401).json({ error: err.message });
   }
