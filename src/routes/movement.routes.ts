@@ -3,7 +3,8 @@ import { Router } from 'express';
 import CarCoordinatesRepository from '../repositories/CarCoordinatesRepository';
 import MovementsRepository from '../repositories/MovementsRepository';
 import CreateMovementService from '../services/CreateMovementService';
-import CalculateCoordinateService from '../services/CalculateCoordinatesService';
+import CreateAndCalculateCoordinatesService from '../services/CreateAndCalculateCoordinatesService';
+import GetMovementsService from '../services/GetMovementsService';
 
 const movementsRouter = Router();
 const movementsRepository = new MovementsRepository();
@@ -12,7 +13,9 @@ const carCoordinatesRepository = new CarCoordinatesRepository();
 movementsRouter.get('/:pilot_name', async (request, response) => {
   try {
     const { pilot_name } = request.params;
-    const movements = await movementsRepository.findMovementsByName(pilot_name);
+    const getMovements = new GetMovementsService(movementsRepository);
+
+    const movements = await getMovements.execute({ pilot_name });
 
     return response.json(movements);
   } catch (err) {
@@ -25,19 +28,14 @@ movementsRouter.post('/', async (request, response) => {
     const { movement, name } = request.body;
 
     const createMovement = new CreateMovementService(movementsRepository);
-    const calculateCoordinates = new CalculateCoordinateService();
+    const calculateCoordinates = new CreateAndCalculateCoordinatesService(
+      carCoordinatesRepository,
+    );
 
     createMovement.execute({ pilot_name: name, movement });
     const marsCarCoordinates = await calculateCoordinates.execute({
       pilot_name: name,
       movements: movement,
-    });
-
-    carCoordinatesRepository.create({
-      pilot_name: name,
-      xCoordinate: marsCarCoordinates.xCoordinate,
-      yCoordinate: marsCarCoordinates.yCoordinate,
-      carDirection: marsCarCoordinates.carDirection,
     });
 
     return response.json(marsCarCoordinates);

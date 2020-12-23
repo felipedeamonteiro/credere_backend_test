@@ -6,16 +6,18 @@ interface IRequest {
   pilot_name: string;
 }
 
-class ResetCoordinatesService {
+class GetCarCoordinateService {
   constructor(private carCoordinatesRepository: ICarCoordinatesRepository) {}
 
-  public async execute({ pilot_name }: IRequest): Promise<CarCoordinates> {
-    const resetedCoordinates = await this.carCoordinatesRepository.resetCoordinates(
+  public async execute({
+    pilot_name,
+  }: IRequest): Promise<CarCoordinates | undefined> {
+    const carCoordinates = await this.carCoordinatesRepository.getCarCoordinates(
       pilot_name,
     );
 
-    return resetedCoordinates;
+    return carCoordinates;
   }
 }
 
-export default ResetCoordinatesService;
+export default GetCarCoordinateService;
