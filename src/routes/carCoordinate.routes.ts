@@ -1,18 +1,22 @@
 import { Router } from 'express';
+import CarCoordinatesRepository from '../repositories/CarCoordinatesRepository';
 
 import ResetCoordinatesService from '../services/ResetCoordinatesService';
 import GetCarCoordinateService from '../services/GetCarCoordinateService';
-import CreateAndCalculateCoordinateService from '../services/CreateAndCalculateCoordinateService';
 
 const coordinatesRouter = Router();
 
 coordinatesRouter.get('/:pilot_name', async (request, response) => {
   try {
+    const carCoordinatesRepository = new CarCoordinatesRepository();
+
     const { pilot_name } = request.params;
 
-    const coordinates = await carCoordinatesRepository.find({
-      where: { pilot_name },
-    });
+    const getCoordinates = new GetCarCoordinateService(
+      carCoordinatesRepository,
+    );
+
+    const coordinates = await getCoordinates.execute({ pilot_name });
 
     return response.json(coordinates);
   } catch (err) {
@@ -22,8 +26,12 @@ coordinatesRouter.get('/:pilot_name', async (request, response) => {
 
 coordinatesRouter.post('/reset/:pilot_name', async (request, response) => {
   try {
+    const carCoordinatesRepository = new CarCoordinatesRepository();
+
     const { pilot_name } = request.params;
-    const resetCoordinates = new ResetCoordinatesService();
+    const resetCoordinates = new ResetCoordinatesService(
+      carCoordinatesRepository,
+    );
 
     const resetedCoordinates = resetCoordinates.execute({ pilot_name });
 

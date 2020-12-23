@@ -7,11 +7,11 @@ import CreateAndCalculateCoordinatesService from '../services/CreateAndCalculate
 import GetMovementsService from '../services/GetMovementsService';
 
 const movementsRouter = Router();
-const movementsRepository = new MovementsRepository();
-const carCoordinatesRepository = new CarCoordinatesRepository();
 
 movementsRouter.get('/:pilot_name', async (request, response) => {
   try {
+    const movementsRepository = new MovementsRepository();
+
     const { pilot_name } = request.params;
     const getMovements = new GetMovementsService(movementsRepository);
 
@@ -25,6 +25,9 @@ movementsRouter.get('/:pilot_name', async (request, response) => {
 
 movementsRouter.post('/', async (request, response) => {
   try {
+    const movementsRepository = new MovementsRepository();
+    const carCoordinatesRepository = new CarCoordinatesRepository();
+
     const { movement, name } = request.body;
 
     const createMovement = new CreateMovementService(movementsRepository);
