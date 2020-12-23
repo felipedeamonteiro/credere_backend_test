@@ -29,6 +29,7 @@ class CalculateCoordinateService {
         yCoordinate: 0,
         carDirection: 'right',
       });
+      await carCoordinatesRepository.save(marsCarCoordinates);
     }
 
     for (let i = 0; i < movements.length; i++) {
@@ -110,16 +111,16 @@ class CalculateCoordinateService {
       }
     }
 
-    const newCarCoordinates = carCoordinatesRepository.create({
-      pilot_name,
-      xCoordinate: marsCarCoordinates.xCoordinate,
-      yCoordinate: marsCarCoordinates.yCoordinate,
-      carDirection: marsCarCoordinates.carDirection,
-    });
+    // const newCarCoordinates = carCoordinatesRepository.create({
+    //   pilot_name,
+    //   xCoordinate: marsCarCoordinates.xCoordinate,
+    //   yCoordinate: marsCarCoordinates.yCoordinate,
+    //   carDirection: marsCarCoordinates.carDirection,
+    // });
 
-    await carCoordinatesRepository.save(newCarCoordinates);
+    await carCoordinatesRepository.save(marsCarCoordinates);
 
-    return newCarCoordinates;
+    return marsCarCoordinates;
   }
 }
 
