@@ -1,7 +1,5 @@
-import { getCustomRepository } from 'typeorm';
 import Movement from '../models/Movement';
-import MovementsRepository from '../repositories/MovementsRepository';
-import FakeMovementRepository from '../repositories/fakes/FakeMovementsRepository';
+import IMovementsRepository from '../repositories/IMovementsRepository';
 
 interface IRequest {
   pilot_name: string;
@@ -9,24 +7,13 @@ interface IRequest {
 }
 
 class CreateMovementService {
+  constructor(private movementsRepository: IMovementsRepository) {}
+
   public async execute({ pilot_name, movement }: IRequest): Promise<Movement> {
-    if (process.env.NODE_ENV === 'test') {
-      const movementsFakeRepository = new FakeMovementRepository();
-
-      const carMovement = movementsFakeRepository.create({
-        pilot_name,
-        movement: String(movement),
-      });
-
-      return carMovement;
-    }
-    const movementsRepository = getCustomRepository(MovementsRepository);
-    const carMovement = movementsRepository.create({
+    const carMovement = this.movementsRepository.createMovement({
       pilot_name,
       movement: String(movement),
     });
-
-    await movementsRepository.save(carMovement);
 
     return carMovement;
   }
