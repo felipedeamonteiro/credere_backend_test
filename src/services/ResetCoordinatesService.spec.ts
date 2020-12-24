@@ -1,8 +1,9 @@
 import GetCarCoordinateService from './GetCarCoordinateService';
 import CreateAndCalculateCoordinatesService from './CreateAndCalculateCoordinatesService';
 import FakeCarCoordinatesRepository from '../repositories/fakes/FakeCarCoordinatesRepository';
+import ResetCoordinatesService from './ResetCoordinatesService';
 
-describe('GetCarCoordinate', () => {
+describe('ResetCoordinates', () => {
   const fakeCarCoordinatesRepository = new FakeCarCoordinatesRepository();
   const getCarCoordinate = new GetCarCoordinateService(
     fakeCarCoordinatesRepository,
@@ -10,8 +11,11 @@ describe('GetCarCoordinate', () => {
   const createAndCalculateCoordinates = new CreateAndCalculateCoordinatesService(
     fakeCarCoordinatesRepository,
   );
+  const resetCoordinates = new ResetCoordinatesService(
+    fakeCarCoordinatesRepository,
+  );
 
-  it('should be able to calculate a new coordinate for the car and get it from database', async () => {
+  it('should be able to reset the coordinates for the inital one', async () => {
     const newCoordinates = await createAndCalculateCoordinates.execute({
       movements: ['GE', 'M', 'M', 'M'],
       pilot_name: 'John Doe',
@@ -30,5 +34,19 @@ describe('GetCarCoordinate', () => {
     };
 
     expect(savedCoordinates).toEqual(expectedData);
+
+    const savedCoordinates2 = await resetCoordinates.execute({
+      pilot_name: 'John Doe',
+    });
+
+    const expectedData2 = {
+      id: savedCoordinates2?.id,
+      pilot_name: 'John Doe',
+      xCoordinate: 0,
+      yCoordinate: 0,
+      carDirection: 'right',
+    };
+
+    expect(savedCoordinates2).toEqual(expectedData2);
   });
 });

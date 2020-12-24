@@ -11,7 +11,9 @@ class GetMovementService {
   public async execute({
     pilot_name,
   }: IRequest): Promise<Movement[] | undefined> {
-    const movements = this.movementsRepository.findMovementsByName(pilot_name);
+    const movements = await this.movementsRepository.findMovementsByName(
+      pilot_name,
+    );
 
     return movements;
   }

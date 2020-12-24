@@ -43,8 +43,12 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
 
     if (pilotCoordinatesExists.length !== 0) {
       const resetedCoordinates = new CarCoordinates();
+      this.carCoordinates.filter(
+        coordinate => coordinate.pilot_name !== pilot_name,
+      );
       Object.assign(resetedCoordinates, {
         id: v4(),
+        pilot_name,
         xCoordinate: 0,
         yCoordinate: 0,
         carDirection: 'right',
