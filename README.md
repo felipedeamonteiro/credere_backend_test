@@ -71,7 +71,7 @@ To run tests and see coverage report:
 yarn test
 ```
 
-### Testing the API
+## - Testing the API
 
 Here I will not teach how to use Insomia, because there are a lot of tutorials out there, but I liked [this one](https://www.youtube.com/watch?v=3tB0uDliS6Y). It's in portuguese.
 
