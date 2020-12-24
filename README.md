@@ -60,9 +60,16 @@ yarn dev:server
 ```
 A message like this should appear in terminal:
 ```
-🤑️ Server started on port 3334!
+🚗️ Server started on port 3333!
 ```
 If so, enjoy the application!
+
+### Code tests
+
+To run tests and see coverage report:
+```
+yarn test
+```
 
 ### Testing the API
 
