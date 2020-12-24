@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 import ICarCoordinatesRepository from '../ICarCoordinatesRepository';
 import CarCoordinates from '../../models/CarCoordinates';
 
@@ -23,7 +23,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
     if (coordinates.length === 0) {
       const initialCarCoordinates = new CarCoordinates();
       Object.assign(initialCarCoordinates, {
-        id: uuid(),
+        id: v4(),
         pilot_name,
         xCoordinate: 0,
         yCoordinate: 0,
@@ -44,7 +44,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
     if (pilotCoordinatesExists.length !== 0) {
       const resetedCoordinates = new CarCoordinates();
       Object.assign(resetedCoordinates, {
-        id: uuid(),
+        id: v4(),
         xCoordinate: 0,
         yCoordinate: 0,
         carDirection: 'right',
@@ -68,7 +68,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
     if (marsCarCoordinates.length === 0) {
       marsCarCoordinates[0] = new CarCoordinates();
       Object.assign(marsCarCoordinates[0], {
-        id: uuid(),
+        id: v4(),
         pilot_name,
         xCoordinate: 0,
         yCoordinate: 0,
