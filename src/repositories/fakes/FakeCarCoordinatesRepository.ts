@@ -10,6 +10,8 @@ interface ICarCoordinatesDTO {
   movements: string[];
 }
 
+// This is a fake repository to be used in tests
+// It has a similar repository class, but it doesn't connect with the database
 class CarCoordinatesRepository implements ICarCoordinatesRepository {
   private carCoordinates: CarCoordinates[] = [];
 

@@ -9,6 +9,12 @@ interface ICarCoordinatesDTO {
   movements: string[];
 }
 
+/**
+ * All the methods related to this repository
+ * Here the class implements the methods described in ICarCoordinatesRepository
+ * and the constructor gets the CarCoordinates repository methods from typeorm.
+ * It helps with the logics, connection with database and with SOLID principles
+ */
 class CarCoordinatesRepository implements ICarCoordinatesRepository {
   private ormRepository: Repository<CarCoordinates>;
 
@@ -19,10 +25,12 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
   public async getCarCoordinates(
     pilot_name: string,
   ): Promise<CarCoordinates | undefined> {
+    // first it's searched a coordinates with pilot's name
     const coordinates = await this.ormRepository.findOne({
       where: { pilot_name },
     });
 
+    // If don't, we create an initial one and return it
     if (!coordinates) {
       const initialCarCoordinates = this.ormRepository.create({
         pilot_name,
@@ -34,6 +42,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
       return initialCarCoordinates;
     }
 
+    // If so, it's just returned
     return coordinates;
   }
 
@@ -41,6 +50,9 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
     const pilotCoordinatesExists = await this.ormRepository.findOne({
       where: { pilot_name },
     });
+    // most of the methods are started with the search of the pilots coordinates
+    // because the save method from typeorm save/store the data in DB but also
+    // update an existing one
 
     if (pilotCoordinatesExists) {
       pilotCoordinatesExists.xCoordinate = 0;
@@ -56,6 +68,9 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
     throw new Error('There is no pilot activity yet.');
   }
 
+  // Here we have the most important method, becuase it calculates the movement
+  // of the probe, validates if the probe goes or not to a wrong coordinate,
+  // updates the coordinates and return the correct values or the errors.
   public async createAndCalculateCarCoordinates({
     pilot_name,
     movements,

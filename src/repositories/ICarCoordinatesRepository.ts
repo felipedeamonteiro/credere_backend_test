@@ -5,6 +5,7 @@ interface ICarCoordinatesDTO {
   movements: string[];
 }
 
+// All the methods used by this repository as a "type for methods"
 export default interface ICarCoordinatesRepository {
   getCarCoordinates(pilot_name: string): Promise<CarCoordinates | undefined>;
   resetCoordinates(pilot_name: string): Promise<CarCoordinates>;

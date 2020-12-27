@@ -8,6 +8,8 @@ import GetMovementsService from '../services/GetMovementsService';
 
 const movementsRouter = Router();
 
+// endpoint to get all movements data from an specific pilot name
+// It's not used in the application, but it helped when developing the api
 movementsRouter.get('/:pilot_name', async (request, response) => {
   try {
     const movementsRepository = new MovementsRepository();
@@ -23,6 +25,9 @@ movementsRouter.get('/:pilot_name', async (request, response) => {
   }
 });
 
+// endpoint to create and calculate coordinates and movements data from an specific pilot name.
+// The storage of movements is not being used in the application, but it helped
+// when developing the api.
 movementsRouter.post('/', async (request, response) => {
   try {
     // const movementsRepository = new MovementsRepository();

@@ -7,6 +7,13 @@ interface IMovementDTO {
   movement: string;
 }
 
+/**
+ * All the methods related to this repository
+ * Here the class implements the methods described in IMovementRepository
+ * and the constructor gets the CarCoordinates repository methods from typeorm.
+ * It helps with the logics, connection with database and with SOLID principles
+ */
+
 class MovementsRepository implements IMovementRepository {
   private ormRepository: Repository<Movement>;
 
