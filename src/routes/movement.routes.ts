@@ -35,6 +35,17 @@ movementsRouter.post('/', async (request, response) => {
       carCoordinatesRepository,
     );
 
+    if (typeof movement === 'string') {
+      createMovement.execute({
+        pilot_name: name,
+        movement: movement.split(','),
+      });
+      const marsCarCoordinates = await calculateCoordinates.execute({
+        pilot_name: name,
+        movements: movement.split(','),
+      });
+      return response.json(marsCarCoordinates);
+    }
     createMovement.execute({ pilot_name: name, movement });
     const marsCarCoordinates = await calculateCoordinates.execute({
       pilot_name: name,
