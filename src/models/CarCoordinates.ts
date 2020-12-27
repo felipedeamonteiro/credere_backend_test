@@ -15,7 +15,7 @@ class CarCoordinates {
   yCoordinate: number;
 
   @Column()
-  carDirection: 'right' | 'up' | 'left' | 'down';
+  carDirection: 'Direita' | 'Cima' | 'Esquerda' | 'Baixo';
 }
 
 export default CarCoordinates;

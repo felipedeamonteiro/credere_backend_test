@@ -27,7 +27,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
         pilot_name,
         xCoordinate: 0,
         yCoordinate: 0,
-        carDirection: 'right',
+        carDirection: 'Direita',
       });
       this.carCoordinates.push(initialCarCoordinates);
       return initialCarCoordinates;
@@ -51,7 +51,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
         pilot_name,
         xCoordinate: 0,
         yCoordinate: 0,
-        carDirection: 'right',
+        carDirection: 'Direita',
       });
 
       this.carCoordinates.push(resetedCoordinates);
@@ -76,7 +76,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
         pilot_name,
         xCoordinate: 0,
         yCoordinate: 0,
-        carDirection: 'right',
+        carDirection: 'Direita',
       });
 
       this.carCoordinates.push(marsCarCoordinates[0]);
@@ -85,42 +85,43 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
     for (let i = 0; i < movements.length; i++) {
       if (movements[i] === 'GD' || movements[i] === 'GE') {
         if (
-          (marsCarCoordinates[0].carDirection === 'right' &&
+          (marsCarCoordinates[0].carDirection === 'Direita' &&
             movements[i] === 'GE') ||
-          (marsCarCoordinates[0].carDirection === 'left' &&
+          (marsCarCoordinates[0].carDirection === 'Esquerda' &&
             movements[i] === 'GD')
         ) {
-          marsCarCoordinates[0].carDirection = 'up';
+          marsCarCoordinates[0].carDirection = 'Cima';
           this.carCoordinates.push(marsCarCoordinates[0]);
         } else if (
-          (marsCarCoordinates[0].carDirection === 'up' &&
+          (marsCarCoordinates[0].carDirection === 'Cima' &&
             movements[i] === 'GE') ||
-          (marsCarCoordinates[0].carDirection === 'down' &&
+          (marsCarCoordinates[0].carDirection === 'Baixo' &&
             movements[i] === 'GD')
         ) {
-          marsCarCoordinates[0].carDirection = 'left';
+          marsCarCoordinates[0].carDirection = 'Esquerda';
           this.carCoordinates.push(marsCarCoordinates[0]);
         } else if (
-          (marsCarCoordinates[0].carDirection === 'left' &&
+          (marsCarCoordinates[0].carDirection === 'Esquerda' &&
             movements[i] === 'GE') ||
-          (marsCarCoordinates[0].carDirection === 'right' &&
+          (marsCarCoordinates[0].carDirection === 'Direita' &&
             movements[i] === 'GD')
         ) {
-          marsCarCoordinates[0].carDirection = 'down';
+          marsCarCoordinates[0].carDirection = 'Baixo';
           this.carCoordinates.push(marsCarCoordinates[0]);
         } else if (
-          (marsCarCoordinates[0].carDirection === 'down' &&
+          (marsCarCoordinates[0].carDirection === 'Baixo' &&
             movements[i] === 'GE') ||
-          (marsCarCoordinates[0].carDirection === 'up' && movements[i] === 'GD')
+          (marsCarCoordinates[0].carDirection === 'Cima' &&
+            movements[i] === 'GD')
         ) {
-          marsCarCoordinates[0].carDirection = 'right';
+          marsCarCoordinates[0].carDirection = 'Direita';
           this.carCoordinates.push(marsCarCoordinates[0]);
         }
       } else {
-        const carMovesRight = marsCarCoordinates[0].carDirection === 'right';
-        const carMovesLeft = marsCarCoordinates[0].carDirection === 'left';
-        const carMovesUp = marsCarCoordinates[0].carDirection === 'up';
-        const carMovesDown = marsCarCoordinates[0].carDirection === 'down';
+        const carMovesRight = marsCarCoordinates[0].carDirection === 'Direita';
+        const carMovesLeft = marsCarCoordinates[0].carDirection === 'Esquerda';
+        const carMovesUp = marsCarCoordinates[0].carDirection === 'Cima';
+        const carMovesDown = marsCarCoordinates[0].carDirection === 'Baixo';
 
         if (carMovesRight) {
           marsCarCoordinates[0].xCoordinate += 1;

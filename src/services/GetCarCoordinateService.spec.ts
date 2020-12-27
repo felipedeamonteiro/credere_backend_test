@@ -26,7 +26,7 @@ describe('GetCarCoordinate', () => {
       pilot_name: 'John Doe',
       xCoordinate: 0,
       yCoordinate: 3,
-      carDirection: 'up',
+      carDirection: 'Cima',
     };
 
     expect(savedCoordinates).toEqual(expectedData);

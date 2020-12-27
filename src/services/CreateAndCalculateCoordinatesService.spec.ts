@@ -16,7 +16,7 @@ describe('CreateAndCalculateCoordinates', () => {
       pilot_name: 'John Doe',
       xCoordinate: 0,
       yCoordinate: 3,
-      carDirection: 'up',
+      carDirection: 'Cima',
     };
 
     expect(newCoordinates).toHaveProperty('id');

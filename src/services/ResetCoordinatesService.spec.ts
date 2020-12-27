@@ -30,7 +30,7 @@ describe('ResetCoordinates', () => {
       pilot_name: 'John Doe',
       xCoordinate: 0,
       yCoordinate: 3,
-      carDirection: 'up',
+      carDirection: 'Cima',
     };
 
     expect(savedCoordinates).toEqual(expectedData);
@@ -44,7 +44,7 @@ describe('ResetCoordinates', () => {
       pilot_name: 'John Doe',
       xCoordinate: 0,
       yCoordinate: 0,
-      carDirection: 'right',
+      carDirection: 'Direita',
     };
 
     expect(savedCoordinates2).toEqual(expectedData2);

@@ -28,7 +28,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
         pilot_name,
         xCoordinate: 0,
         yCoordinate: 0,
-        carDirection: 'right',
+        carDirection: 'Direita',
       });
       await this.ormRepository.save(initialCarCoordinates);
       return initialCarCoordinates;
@@ -45,7 +45,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
     if (pilotCoordinatesExists) {
       pilotCoordinatesExists.xCoordinate = 0;
       pilotCoordinatesExists.yCoordinate = 0;
-      pilotCoordinatesExists.carDirection = 'right';
+      pilotCoordinatesExists.carDirection = 'Direita';
 
       const resetedCoordinates = await this.ormRepository.save(
         pilotCoordinatesExists,
@@ -69,7 +69,7 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
         pilot_name,
         xCoordinate: 0,
         yCoordinate: 0,
-        carDirection: 'right',
+        carDirection: 'Direita',
       });
       await this.ormRepository.save(marsCarCoordinates);
     }
@@ -77,38 +77,41 @@ class CarCoordinatesRepository implements ICarCoordinatesRepository {
     for (let i = 0; i < movements.length; i++) {
       if (movements[i] === 'GD' || movements[i] === 'GE') {
         if (
-          (marsCarCoordinates.carDirection === 'right' &&
+          (marsCarCoordinates.carDirection === 'Direita' &&
             movements[i] === 'GE') ||
-          (marsCarCoordinates.carDirection === 'left' && movements[i] === 'GD')
+          (marsCarCoordinates.carDirection === 'Esquerda' &&
+            movements[i] === 'GD')
         ) {
-          marsCarCoordinates.carDirection = 'up';
+          marsCarCoordinates.carDirection = 'Cima';
           await this.ormRepository.save(marsCarCoordinates);
         } else if (
-          (marsCarCoordinates.carDirection === 'up' && movements[i] === 'GE') ||
-          (marsCarCoordinates.carDirection === 'down' && movements[i] === 'GD')
+          (marsCarCoordinates.carDirection === 'Cima' &&
+            movements[i] === 'GE') ||
+          (marsCarCoordinates.carDirection === 'Baixo' && movements[i] === 'GD')
         ) {
-          marsCarCoordinates.carDirection = 'left';
+          marsCarCoordinates.carDirection = 'Esquerda';
           await this.ormRepository.save(marsCarCoordinates);
         } else if (
-          (marsCarCoordinates.carDirection === 'left' &&
+          (marsCarCoordinates.carDirection === 'Esquerda' &&
             movements[i] === 'GE') ||
-          (marsCarCoordinates.carDirection === 'right' && movements[i] === 'GD')
+          (marsCarCoordinates.carDirection === 'Direita' &&
+            movements[i] === 'GD')
         ) {
-          marsCarCoordinates.carDirection = 'down';
+          marsCarCoordinates.carDirection = 'Baixo';
           await this.ormRepository.save(marsCarCoordinates);
         } else if (
-          (marsCarCoordinates.carDirection === 'down' &&
+          (marsCarCoordinates.carDirection === 'Baixo' &&
             movements[i] === 'GE') ||
-          (marsCarCoordinates.carDirection === 'up' && movements[i] === 'GD')
+          (marsCarCoordinates.carDirection === 'Cima' && movements[i] === 'GD')
         ) {
-          marsCarCoordinates.carDirection = 'right';
+          marsCarCoordinates.carDirection = 'Direita';
           await this.ormRepository.save(marsCarCoordinates);
         }
       } else {
-        const carMovesRight = marsCarCoordinates.carDirection === 'right';
-        const carMovesLeft = marsCarCoordinates.carDirection === 'left';
-        const carMovesUp = marsCarCoordinates.carDirection === 'up';
-        const carMovesDown = marsCarCoordinates.carDirection === 'down';
+        const carMovesRight = marsCarCoordinates.carDirection === 'Direita';
+        const carMovesLeft = marsCarCoordinates.carDirection === 'Esquerda';
+        const carMovesUp = marsCarCoordinates.carDirection === 'Cima';
+        const carMovesDown = marsCarCoordinates.carDirection === 'Baixo';
 
         if (carMovesRight) {
           marsCarCoordinates.xCoordinate += 1;
