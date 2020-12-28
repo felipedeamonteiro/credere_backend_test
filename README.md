@@ -181,11 +181,11 @@ To confirm if the coordinate is (x, y) = (0, 0), use the list coordinates endpoi
 
 ## - This backend system in production
 
-This application is online, hosted in Digital Ocean. You can access it by this address:
+This application is online, hosted in Digital Ocean, with a domain and SSL certificate. You can access it by this address:
 
 PROD
 ```
-http://134.122.1.165
+https://credere.backend.felipedeamonteiro.com/
 ```
 
 DEV
