@@ -1,5 +1,8 @@
 # Hiring Test - Credere
 This is a backend aplication to the backend developer job in the company Credere.
+To see this applicantion running with a frontend app, [click here](https://credere-frontend-test.vercel.app).
+
+To see the frontend repository of this application, click [here](https://github.com/felipedeamonteiro/credere_frontend_test).
 
 ## - Specifications and technologies used here
 
@@ -76,6 +79,8 @@ yarn test
 Here I will not teach how to use Insomia, because there are a lot of tutorials out there, but I liked [this one](https://www.youtube.com/watch?v=3tB0uDliS6Y). It's in portuguese.
 
 ## - Available Endpoints
+
+The endpoints here are shown in development environment.
 
 #### Create Movements and Car Coordinates
 
