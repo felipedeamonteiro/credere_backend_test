@@ -179,4 +179,20 @@ RESPONSE:
 ```
 To confirm if the coordinate is (x, y) = (0, 0), use the list coordinates endpoint to be sure.
 
+## - This backend system in production
+
+This application is online, hosted in Digital Ocean. You can access it by this address:
+
+PROD
+```
+http://134.122.1.165
+```
+
+DEV
+```
+http://localhost:3333
+```
+
+Besides, it uses `github actions` for continuous deploy. The frontend application already uses this app in production.
+
 ## Enjoy!
